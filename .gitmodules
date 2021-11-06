@@ -1,0 +1,3 @@
+[submodule "MQTTInfluxDBBridge"]
+	path = MQTTInfluxDBBridge
+	url = https://github.com/JKBusse/MQTTInfluxDBBridge
