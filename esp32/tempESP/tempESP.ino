@@ -1,17 +1,16 @@
 /*
   temp and humidity MQTT Program
-  ESP8266 only!!
+  ESP32 only!!
  */
 
 //#define DEBUGGING
 
 // Includes
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
+#include <WiFi.h>
+#include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <PubSubClient.h>
-#include <SoftwareSerial.h>
 #include <DHTesp.h>
 
 // Defines
@@ -39,8 +38,8 @@
 // MILLIS time difference
 #define TIME_BETWEEN_SAMPLES 60000
 
-// Pin D6 on NodeMCU
-#define PIN_DHT22_SENSOR 12
+// Pin D26 on NodeMCU
+#define PIN_DHT22_SENSOR 26
 
 // Globals
 DHTesp dht;
@@ -53,8 +52,10 @@ char mqttDataBuffer[MQTT_DATA_BUFFER_LEN];
 unsigned long oldTime = 0;
 
 // Reconnect to WiFi network
-void reconnectWiFi(WiFiEvent_t event){
+void reconnectWiFi(WiFiEvent_t event, WiFiEventInfo_t info){
   Serial.println("Disconnected from WIFI access point");
+  Serial.print("Reason: ");
+  Serial.println(info.wifi_sta_disconnected.reason);
   Serial.println("Reconnecting...");
   WiFi.begin(WIFI_SSID, WIFI_PASS);
 }
@@ -112,7 +113,7 @@ void setup()
   
   Serial.print("Connecting to ");
   Serial.println(WIFI_SSID);
-  WiFi.onEvent(reconnectWiFi, WIFI_EVENT_STAMODE_DISCONNECTED);
+  //WiFi.onEvent(reconnectWiFi, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.status() != WL_CONNECTED) {
       delay(500);
@@ -141,10 +142,10 @@ void setup()
     delay(1000);
   }
   
-  // Port defaults to 8266
-  ArduinoOTA.setPort(8266);
-  // Hostname defaults to esp8266-[ChipID]
-  ArduinoOTA.setHostname("esp8266-Demo-Temp");
+  // Port defaults to 3232
+  ArduinoOTA.setPort(3232);
+  // Hostname defaults to esp32-[ChipID]
+  ArduinoOTA.setHostname("esp32-Demo-Temp");
   
   ArduinoOTA.onStart([]() {
     String type;
@@ -206,6 +207,10 @@ void gatherData(){
     // Gather data
     humidity = dht.getHumidity();
     temperature = dht.getTemperature();
+    Serial.print("Daten: Temp");
+    Serial.print(temperature);
+    Serial.print(" C, Humid: ");
+    Serial.println(humidity);
     // Publish
     publishFloat(MQTT_TOPIC_TEMP, temperature);
     publishFloat(MQTT_TOPIC_HUMID, humidity);

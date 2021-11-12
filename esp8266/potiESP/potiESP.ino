@@ -15,8 +15,10 @@
 #include <DHTesp.h>
 
 // Defines
-#define WIFI_SSID "[SSID]"
-#define WIFI_PASS "[PASS]"
+//#define WIFI_SSID "[SSID]"
+//#define WIFI_PASS "[PASS]"
+#define WIFI_SSID "StartMiUpFB"
+#define WIFI_PASS "43246641485350293845"
 
 #define MQTT_PORT 1883
 #define MQTT_ID "POTI_ESP8266"

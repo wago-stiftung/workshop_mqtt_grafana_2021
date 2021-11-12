@@ -15,8 +15,10 @@
 #include <DHTesp.h>
 
 // Defines
-#define WIFI_SSID "[SSID]"
-#define WIFI_PASS "[PASS]"
+//#define WIFI_SSID "[SSID]"
+//#define WIFI_PASS "[PASS]"
+#define WIFI_SSID "StartMiUpFB"
+#define WIFI_PASS "43246641485350293845"
 
 #define MQTT_PORT 1883
 #define MQTT_ID "LED_ESP8266"
@@ -169,7 +171,7 @@ void setup()
   // Port defaults to 8266
   ArduinoOTA.setPort(8266);
   // Hostname defaults to esp8266-[ChipID]
-  ArduinoOTA.setHostname("esp8266-[ChipID]");
+  ArduinoOTA.setHostname("esp8266-ledUino");
   
   ArduinoOTA.onStart([]() {
     String type;
