@@ -1,4 +1,4 @@
-# workshop_mqtt_grafana_2021
+# Workshop MQTT/Grafana Makeathon 2021
 Workshop für das Sammeln und Auswerten von Messdaten via MQTT und Grafana
 
 # Setup
